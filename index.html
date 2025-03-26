@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Collaborative Text Pad</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; }
+        textarea { width: 90%; height: 80vh; font-size: 16px; margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <h1>Collaborative Text Pad</h1>
+    <textarea id="editor" placeholder="Start typing..."></textarea>
+    <p><button id="share">Share Link</button></p>
+    
+    <script>
+        const textArea = document.getElementById('editor');
+        const shareBtn = document.getElementById('share');
+
+        // Function to get URL parameters
+        function getQueryParam(param) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
+        }
+
+        // Load text from URL if available
+        const textFromURL = getQueryParam('text');
+        if (textFromURL) {
+            textArea.value = decodeURIComponent(textFromURL);
+        }
+
+        // Update the URL when text changes
+        textArea.addEventListener('input', () => {
+            const newURL = `${window.location.origin}${window.location.pathname}?text=${encodeURIComponent(textArea.value)}`;
+            window.history.replaceState(null, '', newURL);
+        });
+
+        // Share button to copy link
+        shareBtn.addEventListener('click', () => {
+            navigator.clipboard.writeText(window.location.href).then(() => {
+                alert('Shareable link copied to clipboard!');
+            });
+        });
+    </script>
+</body>
+</html>
