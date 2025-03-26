@@ -24,4 +24,5 @@ if st.button("Save Text"):
     save_text(text)
     st.success("Text saved! Others will see it on refresh.")
 
-st.button("Refresh", on_click=st.experimental_rerun)
+if st.button("Refresh"):
+    st.rerun()  # ✅ Correct function to rerun the script
