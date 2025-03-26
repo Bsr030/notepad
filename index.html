@@ -7,21 +7,26 @@
     <style>
         body { font-family: Arial, sans-serif; text-align: center; }
         textarea { width: 90%; height: 80vh; font-size: 16px; margin-top: 10px; }
+        button { margin-top: 10px; padding: 10px; font-size: 16px; }
     </style>
 </head>
 <body>
     <h1>Collaborative Text Pad</h1>
     <textarea id="editor" placeholder="Start typing..."></textarea>
+    <br>
+    <button id="save">Save Text</button>
     
     <script>
         const textArea = document.getElementById('editor');
+        const saveButton = document.getElementById('save');
 
-        // Load saved content from localStorage
+        // Load saved text from localStorage
         textArea.value = localStorage.getItem('sharedText') || '';
 
-        // Save content on change
-        textArea.addEventListener('input', () => {
+        // Save text when button is clicked
+        saveButton.addEventListener('click', () => {
             localStorage.setItem('sharedText', textArea.value);
+            alert('Text saved! Others will see it when they refresh.');
         });
     </script>
 </body>
