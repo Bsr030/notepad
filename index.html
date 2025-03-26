@@ -19,14 +19,23 @@
     <script>
         const textArea = document.getElementById('editor');
         const saveButton = document.getElementById('save');
+        const fileUrl = 'data.txt';
 
-        // Load saved text from localStorage
-        textArea.value = localStorage.getItem('sharedText') || '';
+        // Fetch and load text from file
+        fetch(fileUrl, { cache: 'no-cache' })
+            .then(response => response.text())
+            .then(text => { textArea.value = text; })
+            .catch(err => console.error('Error loading text:', err));
 
         // Save text when button is clicked
         saveButton.addEventListener('click', () => {
-            localStorage.setItem('sharedText', textArea.value);
-            alert('Text saved! Others will see it when they refresh.');
+            fetch(fileUrl, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'text/plain' },
+                body: textArea.value
+            }).then(() => {
+                alert('Text saved! Others will see it when they refresh.');
+            }).catch(err => console.error('Error saving text:', err));
         });
     </script>
 </body>
